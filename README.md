@@ -1,6 +1,6 @@
 ## Pokedex
 
-Wir entwickeln ein Pokémon-Trainer-Register. Es ist ein Sammelkartenspiel wo es um kleine Monster geht, Pocket-Monster sozusagen. Die Informationen der einzelnen Pokémon werden von einer API abgerufen und angezeigt.
+Wir entwickeln ein Pokémon-Trainer-Register. Es ist ein Sammelkartenspiel wo es um kleine Monster geht, Pocket-Monster sozusagen. Ein Pokedex ist dabei ein digitales Lexikon, das Informationen über alle Pokémon enthält. Diese Informationen der einzelnen Pokémon werden für diese Website von einer API abgerufen und angezeigt.
 
 ### Features
 
