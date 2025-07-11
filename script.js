@@ -1,13 +1,23 @@
 function init() {
-    fetchPokeApi();
+    fetchPokeList();
 }
 
-async function fetchPokeApi() {
-    let response = await fetch("https://pokeapi.co/api/v2/pokemon/1");
-    let pokeData = await response.json();
-    console.log(pokeData);
+async function fetchPokeList() {
+    let response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=20");
+    let data = await response.json();
+    let pokemonList = data.results;
 
-    // Typen extrahieren
+    for (let i = 0; i < pokemonList.length; i++) {
+        await fetchPokeDetails(pokemonList[i].url);
+    }
+}
+
+async function fetchPokeDetails(url) {
+    let response = await fetch(url);
+    let pokeData = await response.json();
+
+    let pokeId = String(pokeData.id).padStart(4, '0');
+
     let typesHtml = "";
     for (let i = 0; i < pokeData.types.length; i++) {
         let typeName = pokeData.types[i].type.name;
@@ -15,12 +25,15 @@ async function fetchPokeApi() {
     }
 
     let html = `
-    <h2 class="poke-name">${pokeData.name}</h2>
-    <img src="${pokeData.sprites.other['official-artwork'].front_default}" alt="${pokeData.name}">
-    <div class="type-content">
-        ${typesHtml}
-    </div>
+        <div class="poke-card">
+            <h1 class="poke-name">${pokeData.name}</h1>
+            <img src="${pokeData.sprites.other['official-artwork'].front_default}" alt="${pokeData.name}" loading="lazy">
+            <div class="type-content">
+                ${typesHtml}
+            </div>
+            <span class="poke-id">Nr. ${pokeId}</span>
+        </div>
     `;
 
-    document.getElementById('poke-content').innerHTML = html;
+    document.getElementById('poke-content').innerHTML += html;
 }

@@ -32,9 +32,13 @@ main {
 .main-content {
     max-width: 1440px;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
+}
+
+.poke-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 20px;
 }
 
 .poke-card {
@@ -48,6 +52,15 @@ main {
     align-items: center;
     gap: 8px;
     background-color: #eaeaea59;
+}
+
+.poke-card img {
+    height: 60%;
+    padding: 12px 0;
+}
+
+.poke-card:hover {
+    transform: translateY(-5px);
 }
 
 .poke-name {
@@ -88,3 +101,10 @@ main {
 .type.steel   { background-color: #B8B8D0; color: #000; }
 .type.fairy   { background-color: #EE99AC; }
 .type.normal  { background-color: #A8A878; }
+
+.poke-id {
+    width: 100%;
+    text-align: end;
+    margin-top: 8px;
+    color: #666;
+}
