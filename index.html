@@ -11,8 +11,16 @@
 <body onload="init()">
     <header>
         <div class="header-content">
-            <img src="./assets/img/pokeball-3d-render.png" alt="">
-            <h1>PokeDex</h1>
+            <div class="logo-content">
+                <img src="./assets/img/pokeball-3d-render.png" alt="">
+                <h1>PokeDex</h1>
+            </div>
+            <div class="search-container">
+                <input type="text" id="search-input" class="search-input" placeholder="Filter by name or type..." onkeyup="handleSearch(event)">
+                <span id="clear-search" class="clear-search" onclick="clearSearch()">
+                    <img src="./assets/icons/error_32.png" class="close-img" alt="Clear search">
+                </span>
+            </div>
         </div>
     </header>
 
@@ -20,6 +28,8 @@
         <div class="main-content">
             <div class="poke-content" id="poke-content"></div>
             <button id="load-more-btn" class="load-more-btn" onclick="loadMorePokemon()"></button>
+            <span id="poke-remain" class="poke-remain"></span>
+            <button id="cancel-search-btn" class="cancel-search-btn" onclick="clearSearch()">CLEAR SEARCH</button>
         </div>
     </main>
 

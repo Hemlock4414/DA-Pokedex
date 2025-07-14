@@ -13,7 +13,6 @@ html, body {
 header {
     background-color: rgb(29, 107, 123);
     position: sticky;
-    height: 110px;
     top: 0;
     z-index: 100;
 }
@@ -21,16 +20,71 @@ header {
 .header-content {
     max-width: 1440px;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: 30px;
     padding: 0 30px;
     margin: 0 auto;
     height: 100%;
+    justify-content: space-between;
 }
 
-.header-content img {
+.logo-content {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.logo-content img {
   width: auto; 
   height: 110px; 
+}
+
+.search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 300px;
+    padding: 12px 45px 12px 20px;
+    border: 2px solid #fff;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    transition: all 0.3s ease;
+}
+
+.close-img {
+    margin-bottom: -5px;
+}
+
+.search-input:focus {
+    background-color: white;
+}
+
+.search-input::placeholder {
+    color: #666;
+}
+
+.clear-search {
+    position: absolute;
+    right: 15px;
+    font-size: 24px;
+    color: #666;
+    cursor: pointer;
+    user-select: none;
+    display: none;
+    transition: color 0.2s ease;
+}
+
+.clear-search:hover {
+    color: #333;
+}
+
+.clear-search.show {
+    display: block;
 }
 
 main {
@@ -42,6 +96,7 @@ main {
     background-size: cover;
     background-position: center;
     overflow-y: auto;
+    height: 100%;
 }
 
 .main-content {
@@ -134,7 +189,7 @@ h2 {
 }
 
 .load-more-btn {
-    margin: 40px auto;
+    margin: 40px auto 15px;
     padding: 15px 30px;
     background-color: rgb(29, 107, 123);
     color: white;
@@ -155,8 +210,46 @@ h2 {
     cursor: not-allowed;
 }
 
-@media (max-width: 480px) {
+.poke-remain {
+    margin: 0 auto 40px auto;
+    color: white;
+}
+
+.cancel-search-btn {
+    margin: 40px auto 15px;
+    padding: 12px 25px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: none;
+}
+
+.cancel-search-btn:hover {
+    background-color: #c82333;
+}
+
+.no-pokemon-found {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: white;
+    font-size: 32px;
+    padding: 40px 0;
+}
+
+@media (max-width: 700px) {
     .header-content, .main-content {
         padding: 0 10px;
+    }
+    .header-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+    header {
+        padding: 10px 0 20px;
     }
 }

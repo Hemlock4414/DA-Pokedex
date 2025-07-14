@@ -1,11 +1,16 @@
 let currentOffset = 20;
-const pokemonPerPage = 20;
+let pokemonPerPage = 20;
+let totalPokemonCount = 0;
+allPokemon = [];
+let filteredPokemon = [];
+let isSearching = false;
 
 async function init() {
     await fetchPokeList();
     sortPokemon();
     renderPokemon();
-    updateButtonText()
+    updateButtonText();
+    updateRemainingPokemon();
 }
 
 async function fetchPokeList() {
@@ -13,8 +18,8 @@ async function fetchPokeList() {
         let response = await fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=20");
         let data = await response.json();
 
+        totalPokemonCount = data.count;
         // Pokémon Details sequenziell laden
-        allPokemon = [];
         for (let i = 0; i < data.results.length; i++) {
             // pokemon Listeneintrag, enthält nur Namen und URL
             let pokemon = data.results[i];  
@@ -68,7 +73,7 @@ function createPokemonCard(pokemonData) {
                 <div class="type-content">
                     ${typesHtml}
                 </div>
-                <span class="poke-id">Nr. ${pokeId}</span>
+                <span class="poke-id">No. ${pokeId}</span>
             </div>
         `;
         return card;
@@ -80,14 +85,14 @@ function sortPokemon() {
 }
 
 function renderPokemon() {
-    const container = document.getElementById('poke-content');
+    let container = document.getElementById('poke-content');
     
     // Container leeren
     container.innerHTML = '';
 
     // Alle Pokémon rendern
     allPokemon.forEach(pokemon => {
-        const pokemonCard = createPokemonCard(pokemon);
+        let pokemonCard = createPokemonCard(pokemon);
         container.innerHTML += pokemonCard;
     });
 }
@@ -111,9 +116,10 @@ async function loadMorePokemon() {
         // Pokémon sortieren und rendern
         sortPokemon();
         renderPokemon();
+        updateRemainingPokemon();
 
         // Button verstecken wenn keine weiteren Pokémon verfügbar
-        const loadMoreBtn = document.getElementById('load-more-btn');
+        let loadMoreBtn = document.getElementById('load-more-btn');
         if (loadMoreBtn && data.next === null) {
             loadMoreBtn.style.display = 'none';
         }
@@ -124,18 +130,101 @@ async function loadMorePokemon() {
 }
 
 function updateButtonText() {
-    const loadMoreBtn = document.getElementById('load-more-btn');
-        loadMoreBtn.textContent = `LOAD ${pokemonPerPage} MORE`;
+    let loadMoreBtn = document.getElementById('load-more-btn');
+    loadMoreBtn.innerText = `LOAD ${pokemonPerPage} MORE`;
 }
 
-
-// Zusätzliche Funktionen für zukünftige Erweiterungen
-function filterPokemonByType(type) {
-    return allPokemon.filter(pokemon => pokemon.types.includes(type));
+function updateRemainingPokemon() {
+    let remainingPokemon = document.getElementById('poke-remain');
+    remainingPokemon.innerText = `${totalPokemonCount - currentOffset} pokemon remaining`;
 }
 
-function searchPokemon(searchTerm) {
-    return allPokemon.filter(pokemon => 
-        pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+// Such-Funktionen
+
+function handleSearch(event) {
+    let searchTerm = event.target.value.toLowerCase();
+    let clearIcon = document.getElementById('clear-search');
+
+    // X-Icon anzeigen/verstecken
+    if (searchTerm.length > 0) {
+        clearIcon.classList.add('show');
+    } else {
+        clearIcon.classList.remove('show');
+    }
+    
+    if (searchTerm.length >= 3) {
+        isSearching = true;
+        filteredPokemon = allPokemon.filter(pokemon => 
+            pokemon.name.toLowerCase().includes(searchTerm) ||
+            pokemon.types.some(type => type.type.name.toLowerCase().includes(searchTerm))
+        );
+        renderFilteredPokemon();
+        hideLoadMoreButton();
+        showCancelButton();
+    } else if (searchTerm.length === 0) {
+        // Zurück zur normalen Ansicht
+        isSearching = false;
+        renderPokemon();
+        showLoadMoreButton();
+        hideCancelButton();
+    }
+}
+
+function renderFilteredPokemon() {
+    let container = document.getElementById('poke-content');
+    container.innerHTML = '';
+    
+    if (filteredPokemon.length === 0) {
+        container.innerHTML = '<p class="no-pokemon-found">No pokemon found</p>';
+        return;
+    }
+    
+    filteredPokemon.forEach(pokemon => {
+        let pokemonCard = createPokemonCard(pokemon);
+        container.innerHTML += pokemonCard;
+    });
+}
+
+function hideLoadMoreButton() {
+    let loadMoreBtn = document.getElementById('load-more-btn');
+    let remainingSpan = document.getElementById('poke-remain');
+    if (loadMoreBtn) loadMoreBtn.style.display = 'none';
+    if (remainingSpan) remainingSpan.style.display = 'none';
+}
+
+function showLoadMoreButton() {
+    let loadMoreBtn = document.getElementById('load-more-btn');
+    let remainingSpan = document.getElementById('poke-remain');
+    if (loadMoreBtn) loadMoreBtn.style.display = 'block';
+    if (remainingSpan) remainingSpan.style.display = 'block';
+}
+
+// Suche abbrechen
+
+function clearSearch() {
+    let searchInput = document.getElementById('search-input');
+    let clearIcon = document.getElementById('clear-search');
+    
+    // Suchfeld leeren
+    searchInput.value = '';
+    clearIcon.classList.remove('show');
+    
+    // Zur normalen Ansicht zurückkehren
+    isSearching = false;
+    renderPokemon();
+    showLoadMoreButton();
+    hideCancelButton();
+    
+    // Focus zurück auf Suchfeld
+    searchInput.focus();
+}
+
+function showCancelButton() {
+    let cancelBtn = document.getElementById('cancel-search-btn');
+    cancelBtn.style.display = 'block';
+}
+
+function hideCancelButton() {
+    let cancelBtn = document.getElementById('cancel-search-btn');
+    cancelBtn.style.display = 'none';
 }
