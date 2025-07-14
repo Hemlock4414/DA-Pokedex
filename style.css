@@ -50,6 +50,7 @@ main {
     flex-direction: column;
     width: 100%;
     margin: 20px auto; 
+    padding: 0 30px;
 }
 
 .poke-content {
@@ -57,7 +58,6 @@ main {
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 40px;
     width: 100%;
-    padding: 0 30px;
 }
 
 .poke-card:hover {
@@ -131,4 +131,32 @@ h2 {
     margin-top: 15px;
     color: white;
     text-transform: none;
+}
+
+.load-more-btn {
+    margin: 40px auto;
+    padding: 15px 30px;
+    background-color: rgb(29, 107, 123);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.load-more-btn:hover {
+    background-color: rgb(23, 85, 98);
+}
+
+.load-more-btn:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+    .header-content, .main-content {
+        padding: 0 10px;
+    }
 }

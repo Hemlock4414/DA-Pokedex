@@ -1,7 +1,11 @@
+let currentOffset = 20;
+const pokemonPerPage = 20;
+
 async function init() {
     await fetchPokeList();
     sortPokemon();
     renderPokemon();
+    updateButtonText()
 }
 
 async function fetchPokeList() {
@@ -88,7 +92,41 @@ function renderPokemon() {
     });
 }
 
+// Load 20 more pokemon button
 
+async function loadMorePokemon() {
+    try {
+        let response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${currentOffset}&limit=${pokemonPerPage}`);
+        let data = await response.json();
+
+        // Neue Pokémon Details laden
+        for (let i = 0; i < data.results.length; i++) {
+            let pokemon = data.results[i];
+            let pokemonDetails = await fetchPokeDetails(pokemon.url);
+            allPokemon.push(pokemonDetails);
+        }
+
+        currentOffset += pokemonPerPage;
+        
+        // Pokémon sortieren und rendern
+        sortPokemon();
+        renderPokemon();
+
+        // Button verstecken wenn keine weiteren Pokémon verfügbar
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        if (loadMoreBtn && data.next === null) {
+            loadMoreBtn.style.display = 'none';
+        }
+        
+    } catch (error) {
+        console.error("Error loading more pokemon:", error);
+    }
+}
+
+function updateButtonText() {
+    const loadMoreBtn = document.getElementById('load-more-btn');
+        loadMoreBtn.textContent = `LOAD ${pokemonPerPage} MORE`;
+}
 
 
 // Zusätzliche Funktionen für zukünftige Erweiterungen
