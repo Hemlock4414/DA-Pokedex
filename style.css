@@ -94,6 +94,7 @@ h2 {
 
 .type-content {
     display: flex;
+    gap: 20px;
 }
 
 .type {
@@ -102,7 +103,6 @@ h2 {
     color: white;
     font-weight: bold;
     text-transform: uppercase;
-    margin-right: 12px;
     border: solid 1px black;
 }
 
