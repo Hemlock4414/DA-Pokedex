@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding:0;
+    box-sizing: border-box;
 }
 
 html, body {
@@ -14,20 +15,33 @@ header {
     position: sticky;
     height: 110px;
     top: 0;
+    z-index: 100;
 }
 
 .header-content {
     max-width: 1440px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    padding: 0 30px;
+    margin: 0 auto;
+    height: 100%;
+}
+
+.header-content img {
+  width: auto; 
+  height: 110px; 
 }
 
 main {
     padding-top: 30px;
-    background-color: rgb(5, 18, 20);
     display: flex;
     flex-direction: column;
-    margin: 0 auto;   
-    width: 100%;
     align-items: center;
+    background-image: url('./assets/img/bg_4_1920.jpg');
+    background-size: cover;
+    background-position: center;
+    overflow-y: auto;
 }
 
 .main-content {
@@ -35,14 +49,15 @@ main {
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin: 20px auto; 
 }
 
 .poke-content {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    /* margin: 0 15px; */
+    gap: 40px;
     width: 100%;
+    padding: 0 30px;
 }
 
 .poke-card:hover {
