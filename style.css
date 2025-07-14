@@ -79,8 +79,17 @@ main {
     padding: 20px 0;
 }
 
+.poke-card.type {
+    opacity: 0.9;
+}
+
 .poke-name {
     text-transform: capitalize;
+    padding-top: 15px;
+}
+
+h2 {
+    font-size: 32px;
 }
 
 .type-content {
@@ -88,13 +97,13 @@ main {
 }
 
 .type {
-    padding: 15px 20px;
+    padding: 12px 20px;
     border-radius: 10px;
     color: white;
     font-weight: bold;
     text-transform: uppercase;
-    font-family: sans-serif;
     margin-right: 12px;
+    border: solid 1px black;
 }
 
 .type.grass   { background-color: #78C850; }
@@ -119,6 +128,7 @@ main {
 .poke-id {
     width: 100%;
     text-align: end;
-    margin-top: 12px;
-    color: #666;
+    margin-top: 15px;
+    color: white;
+    text-transform: none;
 }

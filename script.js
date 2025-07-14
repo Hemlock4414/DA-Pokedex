@@ -47,6 +47,9 @@ function createPokemonCard(pokemonData) {
         // ID formatieren
         let pokeId = String(pokemonData.id).padStart(4, '0');
 
+        // Primären Typ für Hintergrundfarbe ermitteln
+        let primaryType = pokemonData.types[0].type.name;
+
         // Typen extrahieren
         let typesHtml = "";
         for (let i = 0; i < pokemonData.types.length; i++) {
@@ -55,8 +58,8 @@ function createPokemonCard(pokemonData) {
         }
 
         let card = `
-            <div class="poke-card">
-                <h1 class="poke-name">${pokemonData.name}</h1>
+            <div class="poke-card type ${primaryType}">
+                <h2 class="poke-name">${pokemonData.name}</h2>
                 <img src="${pokemonData.image}" alt="${pokemonData.name}" loading="lazy">
                 <div class="type-content">
                     ${typesHtml}
