@@ -11,6 +11,7 @@ async function init() {
     renderPokemon();
     updateButtonText();
     updateRemainingPokemon();
+    hideLoading();
 }
 
 async function fetchPokeList() {
@@ -100,6 +101,11 @@ function renderPokemon() {
 // Load 20 more pokemon button
 
 async function loadMorePokemon() {
+
+    showLoading();
+    await new Promise(resolve => setTimeout(resolve, 400)); 
+    // Verzögert die API-Anfrage sodass man den Spinner länger geniessen kann
+
     try {
         let response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${currentOffset}&limit=${pokemonPerPage}`);
         let data = await response.json();
@@ -126,6 +132,8 @@ async function loadMorePokemon() {
         
     } catch (error) {
         console.error("Error loading more pokemon:", error);
+    } finally {
+        hideLoading();
     }
 }
 
@@ -220,11 +228,17 @@ function clearSearch() {
 }
 
 function showCancelButton() {
-    let cancelBtn = document.getElementById('cancel-search-btn');
-    cancelBtn.style.display = 'block';
+    document.getElementById('cancel-search-btn').style.display = 'block';
 }
 
 function hideCancelButton() {
-    let cancelBtn = document.getElementById('cancel-search-btn');
-    cancelBtn.style.display = 'none';
+    document.getElementById('cancel-search-btn').style.display = 'none';
+}
+
+function showLoading() {
+    document.getElementById('loading-overlay').style.display = 'flex';
+}
+
+function hideLoading() {
+    document.getElementById('loading-overlay').style.display = 'none';
 }

@@ -5,7 +5,7 @@ Wir entwickeln ein Pokémon-Trainer-Register. Es ist ein Sammelkartenspiel wo es
 ### Features
 
 - Listenansicht und Overlay
-- Suchfunktion
+- Suchfunktion nach Name oder Typ
 
 
 ![pexels-pokedex](https://github.com/user-attachments/assets/eb8bdee8-f419-4b9e-ac7e-72ddb16480d3)

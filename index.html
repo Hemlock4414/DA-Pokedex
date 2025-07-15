@@ -9,11 +9,16 @@
     <title>Pokedex</title>
 </head>
 <body onload="init()">
+
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="pokeball-spinner"></div>
+    </div>
+
     <header>
         <div class="header-content">
             <div class="logo-content">
                 <img src="./assets/img/pokeball-3d-render.png" alt="">
-                <h1>PokeDex</h1>
+                <h1>Pokedex</h1>
             </div>
             <div class="search-container">
                 <input type="text" id="search-input" class="search-input" placeholder="Filter by name or type..." onkeyup="handleSearch(event)">
