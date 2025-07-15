@@ -4,6 +4,7 @@ let totalPokemonCount = 0;
 allPokemon = [];
 let filteredPokemon = [];
 let isSearching = false;
+let currentImageIndex = 0;
 
 async function init() {
     await fetchPokeList();
@@ -70,7 +71,7 @@ function createPokemonCard(pokemonData) {
         let card = `
             <div class="poke-card type ${primaryType}">
                 <h2 class="poke-name">${pokemonData.name}</h2>
-                <img src="${pokemonData.image}" alt="${pokemonData.name}" loading="lazy">
+                <img src="${pokemonData.image}" alt="${pokemonData.name}" loading="lazy" onclick="openOverlay(${pokemonData.id})">
                 <div class="type-content">
                     ${typesHtml}
                 </div>
@@ -180,6 +181,8 @@ function handleSearch(event) {
 
 function renderFilteredPokemon() {
     let container = document.getElementById('poke-content');
+
+    // Container leeren
     container.innerHTML = '';
     
     if (filteredPokemon.length === 0) {
@@ -241,4 +244,75 @@ function showLoading() {
 
 function hideLoading() {
     document.getElementById('loading-overlay').style.display = 'none';
+}
+
+// Pokemon Overlay
+
+function toggleOverlay() {
+    let overlay = document.getElementById('overlay-pokemon');
+    if (overlay.style.display === 'flex') {
+        overlay.style.display = 'none';
+    } else {
+        overlay.style.display = 'flex';
+    }
+}
+
+function openOverlay(pokemonId) {
+    // Finde das Pokémon anhand der ID
+    let pokemonToShow = isSearching ? filteredPokemon : allPokemon;
+    let pokemonIndex = pokemonToShow.findIndex(pokemon => pokemon.id === pokemonId);
+    
+    if (pokemonIndex === -1) return;
+    
+    // Setze den aktuellen Bildindex
+    currentImageIndex = pokemonIndex;
+    
+    // Hole das Overlay-Element
+    let overlayRef = document.getElementById('overlay-pokemon');
+    
+    // Füge das große Bild zum Overlay hinzu
+    overlayRef.innerHTML = getOverlayTemplate(currentImageIndex);
+    
+    // Zeige das Overlay an
+    overlayRef.style.display = 'flex';
+}
+
+function getOverlayTemplate(imageIndex) {
+    // Bestimme welches Array verwendet werden soll
+    let pokemonToShow = isSearching ? filteredPokemon : allPokemon;
+    let currentPokemon = pokemonToShow[imageIndex];
+    
+    return `
+        <div class="overlay-pokemon-content" onclick="noPropagation(event)">
+            <div class="overlay-pokemon-header">
+                <h2 class="overlay-pokemon-name">${currentPokemon.name}</h2>
+                <button class="close-btn" onclick="toggleOverlay()">×</button>
+            </div>
+            <img class="overlay-pokemon-img" src="${currentPokemon.image}" alt="${currentPokemon.name}">
+            <div class="overlay-pokemon-navigation" >
+                <button class="nav-btn prev-btn" onclick="navigateImage(-1)">
+                    <img src="./assets/icons/arrow_left_back.svg" alt="Back">
+                </button>
+                <button class="nav-btn next-btn" onclick="navigateImage(1)">
+                    <img src="./assets/icons/arrow_right_next.svg" alt="Forward">
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function createImageTemplate(imageIndex) {
+  return  `<img onclick="openOverlay(${imageIndex})" src="${currentImages[imageIndex]}">`;
+}
+
+function navigateImage(direction) {
+    let pokemonToShow = isSearching ? filteredPokemon : allPokemon;
+    currentImageIndex = (currentImageIndex + direction + pokemonToShow.length) % pokemonToShow.length;
+    
+    let overlayRef = document.getElementById('overlay-pokemon');
+    overlayRef.innerHTML = getOverlayTemplate(currentImageIndex);
+}
+
+function noPropagation(event) {
+  event.stopPropagation();
 }
