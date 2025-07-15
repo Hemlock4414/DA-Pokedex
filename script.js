@@ -103,7 +103,7 @@ function renderPokemon() {
 async function loadMorePokemon() {
 
     showLoading();
-    await new Promise(resolve => setTimeout(resolve, 400)); 
+    await new Promise(resolve => setTimeout(resolve, 300)); 
     // Verzögert die API-Anfrage sodass man den Spinner länger geniessen kann
 
     try {
