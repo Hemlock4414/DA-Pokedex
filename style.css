@@ -500,12 +500,54 @@ h2 {
     display: none;
     padding: 20px;
     min-height: 200px;
+    color: black;
+    text-transform: none;
 }
 
 .tab-content.active {
     display: flex;
+    flex-direction: column;
 }
 
+.about-grid {
+    display: grid;
+    grid-template-columns: max-content auto;
+    row-gap: 8px;
+    column-gap: 32px;
+    font-size: 16px;
+}
+
+.stat-row {
+    display: grid;
+    grid-template-columns: 110px 30px 1fr;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 6px;
+}
+
+.stat-label {
+    text-transform: capitalize;
+}
+
+.stat-value {
+    text-align: right;
+}
+
+.stat-bar-container {
+    display: flex;
+    align-items: center;
+    background-color: #eee;
+    height: 10px;
+    border-radius: 8px;
+}
+
+.stat-bar {
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 8px;
+    width: 100%;
+    padding: 4px 0;
+}
 
 /* Responsive */
 
@@ -529,9 +571,12 @@ h2 {
         padding: 0 5px;
     }
     .tab-content {
-        padding: 5px;
+        padding: 15px 5px;
     }
     .tab button {
         padding: 14px 8px;
+    }
+    .stat-row {
+        gap: 10px;
     }
 }

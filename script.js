@@ -45,7 +45,12 @@ async function fetchPokeDetails(url) {
             id: pokemonData.id,
             name: pokemonData.name,
             image: pokemonData.sprites.other['official-artwork'].front_default,
-            types: pokemonData.types
+            types: pokemonData.types,
+            abilities: pokemonData.abilities,
+            height: pokemonData.height,
+            weight: pokemonData.weight,
+            base_experience: pokemonData.base_experience,
+            stats: pokemonData.stats
         };
 
     } catch (error) {
@@ -247,6 +252,10 @@ function hideLoading() {
     document.getElementById('loading-overlay').style.display = 'none';
 }
 
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 // Pokemon Overlay
 
 function toggleOverlay() {
@@ -276,6 +285,10 @@ function openOverlay(pokemonId) {
     
     // Zeige das Overlay an
     overlayRef.style.display = 'flex';
+
+    // Dann Stats rendern
+    let currentPokemon = (isSearching ? filteredPokemon : allPokemon)[currentImageIndex];
+    renderStats(currentPokemon);
 }
 
 function getOverlayTemplate(imageIndex) {
@@ -310,11 +323,23 @@ function getOverlayTemplate(imageIndex) {
                     <button class="tablinks" onclick="openTab(event, 'moves')">Moves</button>
                 </div>
                 <div id="about" class="tab-content active">
-                    <p>Stats werden hier angezeigt...</p>
+                    <div class="about-grid">
+                        <p><strong>ID</strong></p><p>${currentPokemon.id}</p>
+                        <p><strong>Height</strong></p><p>${(currentPokemon.height / 10).toFixed(1)} m</p>
+                        <p><strong>Weight</strong></p><p>${(currentPokemon.weight / 10).toFixed(1)} kg</p>
+                        <p><strong>Base Experience</strong></p><p>${currentPokemon.base_experience}</p>
+                        <p><strong>Types</strong></p><p>${currentPokemon.types.map(t => capitalize(t.type.name)).join(', ')}</p>
+                        <p><strong>Abilities</strong></p><p>${
+                            currentPokemon.abilities
+                                .map(a => {
+                                    let name = capitalize(a.ability.name);
+                                    return a.is_hidden ? `${name} (Hidden)` : name;
+                                })
+                                .join(', ')
+                        }</p>
+                    </div>
                 </div>
-                <div id="stats" class="tab-content">
-                    <p>Moves werden hier angezeigt...</p>
-                </div>
+                <div id="stats" class="tab-content"></div>
                 <div id="evolution" class="tab-content">
                     <p>Evolution werden hier angezeigt...</p>
                 </div>
@@ -324,6 +349,39 @@ function getOverlayTemplate(imageIndex) {
             </div>
         </div>
     `;
+}
+
+function renderStats(pokemon) {
+    const statsContainer = document.getElementById('stats');
+    statsContainer.innerHTML = ''; // leeren
+
+    const statNames = {
+        hp: "HP",
+        attack: "Attack",
+        defense: "Defense",
+        "special-attack": "Special Attack",
+        "special-defense": "Special Defense",
+        speed: "Speed"
+    };
+
+    const maxStatValue = 200; // Skalierung für Breite
+    const primaryType = pokemon.types[0].type.name;
+
+    pokemon.stats.forEach(stat => {
+        const statName = statNames[stat.stat.name] || stat.stat.name;
+        const statValue = stat.base_stat;
+        const widthPercent = (statValue / maxStatValue) * 100;
+
+        statsContainer.innerHTML += `
+            <div class="stat-row">
+                <span class="stat-label">${statName}</span>
+                <span class="stat-value">${statValue}</span>
+                <div class="stat-bar-container">
+                    <div class="stat-bar type ${primaryType}" style="width: ${widthPercent}%;"></div>
+                </div>
+            </div>
+        `;
+    });
 }
 
 function createImageTemplate(imageIndex) {
@@ -336,6 +394,10 @@ function navigateImage(direction) {
     
     let overlayRef = document.getElementById('overlay-pokemon');
     overlayRef.innerHTML = getOverlayTemplate(currentImageIndex);
+
+    // Dann Stats rendern
+    let currentPokemon = (isSearching ? filteredPokemon : allPokemon)[currentImageIndex];
+    renderStats(currentPokemon);
 }
 
 function noPropagation(event) {
