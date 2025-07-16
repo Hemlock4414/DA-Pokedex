@@ -302,8 +302,25 @@ function getOverlayTemplate(imageIndex) {
                 </div>
             </div>
             <img class="overlay-pokemon-img" src="${currentPokemon.image}" alt="${currentPokemon.name}">
-            <div class="overlay-pokemon-info">
-                
+            <div class="overlay-pokemon-stats">
+                <div class="tab">
+                    <button class="tablinks active" onclick="openTab(event, 'about')">About</button>
+                    <button class="tablinks" onclick="openTab(event, 'stats')">Stats</button>
+                    <button class="tablinks" onclick="openTab(event, 'evolution')">Evolution</button>
+                    <button class="tablinks" onclick="openTab(event, 'moves')">Moves</button>
+                </div>
+                <div id="about" class="tab-content active">
+                    <p>Stats werden hier angezeigt...</p>
+                </div>
+                <div id="stats" class="tab-content">
+                    <p>Moves werden hier angezeigt...</p>
+                </div>
+                <div id="evolution" class="tab-content">
+                    <p>Evolution werden hier angezeigt...</p>
+                </div>
+                <div id="moves" class="tab-content">
+                    <p>Moves werden hier angezeigt...</p>
+                </div>
             </div>
         </div>
     `;
@@ -323,4 +340,24 @@ function navigateImage(direction) {
 
 function noPropagation(event) {
   event.stopPropagation();
+}
+
+// Tab-Funktionalität
+
+function openTab(evt, tabName) {
+    // Alle tab-content Elemente verstecken
+    let tabcontent = document.getElementsByClassName("tab-content");
+    for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].classList.remove("active");
+    }
+    
+    // Alle tablinks als nicht aktiv markieren
+    let tablinks = document.getElementsByClassName("tablinks");
+    for (let i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+    }
+    
+    // Ausgewählten Tab anzeigen und Button als aktiv markieren
+    document.getElementById(tabName).classList.add("active");
+    evt.currentTarget.classList.add("active");
 }

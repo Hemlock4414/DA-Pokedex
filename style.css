@@ -363,13 +363,13 @@ h2 {
 .overlay-pokemon-content {
     position: relative;
     max-width: 80%;
-    max-height: 80%;
+    max-height: 95%;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: rgba(45, 36, 59, 0.75);
-    padding: 50px 20px 20px 20px;
-    border-radius: 8px;
+    padding: 50px 10px 10px 10px;
+    border-radius: 12px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -426,20 +426,86 @@ h2 {
     max-height: 60%;
     object-fit: contain;
     border-radius: 8px;
+    z-index: 4;
+    margin-bottom: -50px;
 }
 
-.overlay-pokemon-info {
+.overlay-pokemon-stats {
     padding-top: 40px;
-    padding-bottom: 24px;
     background-color: white;
     width: 100%;
-    position: relative;
-    bottom: 0;
-    border-radius: 24px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     z-index: 3;
 }
+
+/* Tab Navigation */
+
+.tab {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.tab button {
+    border-radius: 8px 8px 0 0;
+    background-color: #eceef3;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s ease;
+    font-size: 16px;
+    color: #5a5a5a;
+    border-bottom: 3px solid transparent;
+    flex: 1;
+}
+
+.tab button:hover {
+    background-color: #d6dbe3;
+    color: #1e3a5f;
+}
+
+.tab button.active {
+    background-color: #ffffff;
+    font-weight: bold;
+    color: #1e3a5f;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+    border-bottom: 4px solid #f9b142;
+}
+
+.type.grass .tab button.active { border-bottom-color: #78C850; }
+.type.poison .tab button.active { border-bottom-color: #A040A0; }
+.type.fire .tab button.active { border-bottom-color: #F08030; }
+.type.water .tab button.active { border-bottom-color: #6890F0; }
+.type.electric .tab button.active { border-bottom-color: #F8D030; }
+.type.ice .tab button.active { border-bottom-color: #98D8D8; }
+.type.fighting .tab button.active { border-bottom-color: #C03028; }
+.type.ground .tab button.active { border-bottom-color: #E0C068; }
+.type.flying .tab button.active { border-bottom-color: #A890F0; }
+.type.psychic .tab button.active { border-bottom-color: #F85888; }
+.type.bug .tab button.active { border-bottom-color: #A8B820; }
+.type.rock .tab button.active { border-bottom-color: #B8A038; }
+.type.ghost .tab button.active { border-bottom-color: #705898; }
+.type.dragon .tab button.active { border-bottom-color: #7038F8; }
+.type.dark .tab button.active { border-bottom-color: #705848; }
+.type.steel .tab button.active { border-bottom-color: #B8B8D0; }
+.type.fairy .tab button.active { border-bottom-color: #EE99AC; }
+.type.normal .tab button.active { border-bottom-color: #A8A878; }
+
+/* Tab Content */
+
+.tab-content {
+    display: none;
+    padding: 20px;
+    min-height: 200px;
+}
+
+.tab-content.active {
+    display: flex;
+}
+
 
 /* Responsive */
 
@@ -456,11 +522,16 @@ h2 {
     }
     .overlay-pokemon-content {
         max-width: 95%;
-        max-height: 90%;
-        padding: 50px 15px 15px 15px;
+        max-height: 95%;
+        padding: 50px 5px 5px 5px;
     }
-    .overlay-pokemon-img {
-        max-width: 90%;
-        max-height: 70%;
+    .tab {
+        padding: 0 5px;
+    }
+    .tab-content {
+        padding: 5px;
+    }
+    .tab button {
+        padding: 14px 8px;
     }
 }
