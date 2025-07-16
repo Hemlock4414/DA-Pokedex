@@ -104,8 +104,9 @@ function renderPokemon() {
 async function loadMorePokemon() {
 
     showLoading();
-    await new Promise(resolve => setTimeout(resolve, 300)); 
+
     // Verzögert die API-Anfrage sodass man den Spinner länger geniessen kann
+    // await new Promise(resolve => setTimeout(resolve, 300)); 
 
     try {
         let response = await fetch(`https://pokeapi.co/api/v2/pokemon?offset=${currentOffset}&limit=${pokemonPerPage}`);
@@ -281,21 +282,28 @@ function getOverlayTemplate(imageIndex) {
     // Bestimme welches Array verwendet werden soll
     let pokemonToShow = isSearching ? filteredPokemon : allPokemon;
     let currentPokemon = pokemonToShow[imageIndex];
+
+    let primaryType = currentPokemon.types[0].type.name;
     
     return `
-        <div class="overlay-pokemon-content" onclick="noPropagation(event)">
+        <div class="overlay-pokemon-content type ${primaryType}" onclick="noPropagation(event)">
             <div class="overlay-pokemon-header">
-                <h2 class="overlay-pokemon-name">${currentPokemon.name}</h2>
-                <button class="close-btn" onclick="toggleOverlay()">×</button>
+                <button class="close-btn" onclick="toggleOverlay()">
+                    <img src="./assets/icons/close_white.png" alt="Close">
+                </button>
+                <div class="overlay-pokemon-title">
+                    <button class="nav-btn" onclick="navigateImage(-1)">
+                        <img src="./assets/icons/arrow_back_white.png" alt="Back">
+                    </button>
+                    <h2 class="overlay-pokemon-name">${currentPokemon.name}</h2>
+                    <button class="nav-btn" onclick="navigateImage(1)">
+                        <img src="./assets/icons/arrow_forward_white.png" alt="Forward">
+                    </button>
+                </div>
             </div>
             <img class="overlay-pokemon-img" src="${currentPokemon.image}" alt="${currentPokemon.name}">
-            <div class="overlay-pokemon-navigation" >
-                <button class="nav-btn prev-btn" onclick="navigateImage(-1)">
-                    <img src="./assets/icons/arrow_left_back.svg" alt="Back">
-                </button>
-                <button class="nav-btn next-btn" onclick="navigateImage(1)">
-                    <img src="./assets/icons/arrow_right_next.svg" alt="Forward">
-                </button>
+            <div class="overlay-pokemon-info">
+                
             </div>
         </div>
     `;
