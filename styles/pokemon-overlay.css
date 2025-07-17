@@ -1,0 +1,264 @@
+/* Overlay for Pokemon */
+
+.overlay-pokemon {
+    height: 100vh;
+    width: 100%;
+    background-color: rgba(30, 58, 95, 0.22);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+    display: none;
+}
+
+.overlay-pokemon-content {
+    position: relative;
+    max-width: 80%;
+    max-height: 95%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(45, 36, 59, 0.75);
+    padding: 50px 10px 10px 10px;
+    border-radius: 12px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.overlay-pokemon-content.electric h2,
+.overlay-pokemon-content.ice h2,
+.overlay-pokemon-content.ground h2,
+.overlay-pokemon-content.steel h2 {
+    color: #000;
+}
+
+.overlay-pokemon-header {
+    padding: 10px;
+    width: 100%;
+    text-transform: capitalize;
+}
+
+.overlay-pokemon-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 15px 0;
+}
+
+.nav-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.nav-btn:hover {
+    scale: 1.4;
+}
+
+.nav-btn img {
+    width: 32px;
+    height: 32px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    transition: all 0.2s ease;
+}
+.close-btn img {
+    height: 32px;
+}
+
+.close-btn:hover {
+    scale: 1.4;
+}
+
+.overlay-pokemon-img {
+    max-width: 60%;
+    max-height: 60%;
+    object-fit: contain;
+    border-radius: 8px;
+    z-index: 4;
+    margin-bottom: -50px;
+}
+
+.overlay-pokemon-stats {
+    padding-top: 40px;
+    background-color: white;
+    width: 100%;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
+}
+
+/* Tab Navigation */
+
+.tab {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+}
+
+.tab button {
+    border-radius: 8px 8px 0 0;
+    background-color: #eceef3;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s ease;
+    font-size: 18px;
+    color: #5a5a5a;
+    border-bottom: 4px solid transparent;
+    flex: 1;
+    font-family: 'Lato', Arial, sans-serif;
+}
+
+.tab button:hover {
+    background-color: #d6dbe3;
+    color: #1e3a5f;
+}
+
+.tab button.active {
+    background-color: #ffffff;
+    font-weight: bold;
+    color: #1e3a5f;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+    border-bottom: 4px solid #f9b142;
+}
+
+.grass .tab button.active { border-bottom-color: #78C850; }
+.poison .tab button.active { border-bottom-color: #A040A0; }
+.fire .tab button.active { border-bottom-color: #F08030; }
+.water .tab button.active { border-bottom-color: #6890F0; }
+.electric .tab button.active { border-bottom-color: #F8D030; }
+.ice .tab button.active { border-bottom-color: #98D8D8; }
+.fighting .tab button.active { border-bottom-color: #C03028; }
+.ground .tab button.active { border-bottom-color: #E0C068; }
+.flying .tab button.active { border-bottom-color: #A890F0; }
+.psychic .tab button.active { border-bottom-color: #F85888; }
+.bug .tab button.active { border-bottom-color: #A8B820; }
+.rock .tab button.active { border-bottom-color: #B8A038; }
+.ghost .tab button.active { border-bottom-color: #705898; }
+.dragon .tab button.active { border-bottom-color: #7038F8; }
+.dark .tab button.active { border-bottom-color: #705848; }
+.steel .tab button.active { border-bottom-color: #B8B8D0; }
+.fairy .tab button.active { border-bottom-color: #EE99AC; }
+.normal .tab button.active { border-bottom-color: #A8A878; }
+
+/* Tab Content */
+
+.tab-content {
+    display: none;
+    padding: 20px 20px 15px;
+    min-height: 200px;
+    color: black;
+    text-transform: none;
+}
+
+.tab-content.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: max-content auto;
+    row-gap: 8px;
+    column-gap: 32px;
+    font-size: 16px;
+}
+
+.about-grid-label {
+    font-weight: bold;
+    color: #555;
+}
+
+.stat-row {
+    display: grid;
+    grid-template-columns: 125px 30px 1fr;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.stat-label {
+    text-transform: capitalize;
+    font-weight: bold;
+    color: #555;
+}
+
+.stat-value {
+    text-align: right;
+}
+
+.stat-bar-container {
+    display: flex;
+    align-items: center;
+    background-color: #eee;
+    height: 10px;
+    border-radius: 8px;
+}
+
+.stat-bar {
+    height: 100%;
+    transition: width 0.3s ease;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+    padding: 4px 0;
+}
+
+.moves-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+}
+.move-entry {
+    background-color: #f4f4f4;
+    padding: 6px 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.move-name {
+    text-transform: capitalize;
+}
+
+.move-small {
+    color: #555;
+}
+
+.evolution-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: auto;
+}
+
+.evo-stage {
+    text-align: center;
+}
+
+.evo-arrow {
+    font-size: 24px;
+}
+.evo-image {
+    width: 96px;
+    height: 96px;
+}

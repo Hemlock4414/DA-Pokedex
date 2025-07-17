@@ -71,11 +71,11 @@ function createPokemonCard(pokemonData) {
         let typesHtml = "";
         for (let i = 0; i < pokemonData.types.length; i++) {
             let typeName = pokemonData.types[i].type.name;
-            typesHtml += `<span class="type ${typeName}">${typeName}</span> `;
+            typesHtml += `<span class="type-badge ${typeName}">${typeName}</span> `;
         }
 
         let card = `
-            <div class="poke-card type ${primaryType}">
+            <div class="poke-card type-label ${primaryType}">
                 <h2 class="poke-name">${pokemonData.name}</h2>
                 <img src="${pokemonData.image}" alt="${pokemonData.name}" loading="lazy" onclick="openOverlay(${pokemonData.id})">
                 <div class="type-content">
