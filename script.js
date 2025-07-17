@@ -50,7 +50,8 @@ async function fetchPokeDetails(url) {
             height: pokemonData.height,
             weight: pokemonData.weight,
             base_experience: pokemonData.base_experience,
-            stats: pokemonData.stats
+            stats: pokemonData.stats,
+            moves: pokemonData.moves
         };
 
     } catch (error) {
@@ -286,9 +287,10 @@ function openOverlay(pokemonId) {
     // Zeige das Overlay an
     overlayRef.style.display = 'flex';
 
-    // Dann Stats rendern
+    // Dann Tabs rendern
     let currentPokemon = (isSearching ? filteredPokemon : allPokemon)[currentImageIndex];
     renderStats(currentPokemon);
+    renderMoves(currentPokemon);
 }
 
 function getOverlayTemplate(imageIndex) {
@@ -324,12 +326,12 @@ function getOverlayTemplate(imageIndex) {
                 </div>
                 <div id="about" class="tab-content active">
                     <div class="about-grid">
-                        <p><strong>ID</strong></p><p>${currentPokemon.id}</p>
-                        <p><strong>Height</strong></p><p>${(currentPokemon.height / 10).toFixed(1)} m</p>
-                        <p><strong>Weight</strong></p><p>${(currentPokemon.weight / 10).toFixed(1)} kg</p>
-                        <p><strong>Base Experience</strong></p><p>${currentPokemon.base_experience}</p>
-                        <p><strong>Types</strong></p><p>${currentPokemon.types.map(t => capitalize(t.type.name)).join(', ')}</p>
-                        <p><strong>Abilities</strong></p><p>${
+                        <p class="about-grid-label">ID</p><p>${currentPokemon.id}</p>
+                        <p class="about-grid-label">Height</p><p>${(currentPokemon.height / 10).toFixed(1)} m</p>
+                        <p class="about-grid-label">Weight</p><p>${(currentPokemon.weight / 10).toFixed(1)} kg</p>
+                        <p class="about-grid-label">Base Experience</p><p>${currentPokemon.base_experience}</p>
+                        <p class="about-grid-label">Types</p><p>${currentPokemon.types.map(t => capitalize(t.type.name)).join(', ')}</p>
+                        <p class="about-grid-label">Abilities</p><p>${
                             currentPokemon.abilities
                                 .map(a => {
                                     let name = capitalize(a.ability.name);
@@ -343,9 +345,7 @@ function getOverlayTemplate(imageIndex) {
                 <div id="evolution" class="tab-content">
                     <p>Evolution werden hier angezeigt...</p>
                 </div>
-                <div id="moves" class="tab-content">
-                    <p>Moves werden hier angezeigt...</p>
-                </div>
+                <div id="moves" class="tab-content"></div>
             </div>
         </div>
     `;
@@ -395,9 +395,10 @@ function navigateImage(direction) {
     let overlayRef = document.getElementById('overlay-pokemon');
     overlayRef.innerHTML = getOverlayTemplate(currentImageIndex);
 
-    // Dann Stats rendern
+    // Dann Tabs rendern
     let currentPokemon = (isSearching ? filteredPokemon : allPokemon)[currentImageIndex];
     renderStats(currentPokemon);
+    renderMoves(currentPokemon);
 }
 
 function noPropagation(event) {
@@ -422,4 +423,38 @@ function openTab(evt, tabName) {
     // Ausgewählten Tab anzeigen und Button als aktiv markieren
     document.getElementById(tabName).classList.add("active");
     evt.currentTarget.classList.add("active");
+}
+
+// Render Moves
+
+function renderMoves(pokemon) {
+    const movesContainer = document.getElementById('moves');
+    movesContainer.innerHTML = ''; // Clear previous content
+
+    // 1. Nur Level-up-Moves filtern
+    const levelUpMoves = pokemon.moves
+        .map(move => {
+            const levelUpInfo = move.version_group_details.find(
+                detail => detail.move_learn_method.name === 'level-up'
+            );
+            return levelUpInfo ? { name: move.move.name, level: levelUpInfo.level_learned_at } : null;
+        })
+        .filter(Boolean); // entfernt null-Einträge
+
+    // 2. Sortieren nach Level absteigend und Top 9 nehmen
+    const topMoves = levelUpMoves
+        .sort((a, b) => a.level - b.level)
+        .slice(0, 9);
+
+    // 3. HTML-Container füllen
+    movesContainer.innerHTML = `
+        <div class="moves-grid">
+            ${topMoves.map(move => `
+                <div class="move-entry">
+                    ${capitalize(move.name)}<br>
+                    <small>Lvl ${move.level}</small>
+                </div>
+            `).join('')}
+        </div>
+    `;
 }

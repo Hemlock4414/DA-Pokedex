@@ -456,9 +456,9 @@ h2 {
     cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s ease;
-    font-size: 16px;
+    font-size: 18px;
     color: #5a5a5a;
-    border-bottom: 3px solid transparent;
+    border-bottom: 4px solid transparent;
     flex: 1;
 }
 
@@ -498,7 +498,7 @@ h2 {
 
 .tab-content {
     display: none;
-    padding: 20px;
+    padding: 20px 20px 15px;
     min-height: 200px;
     color: black;
     text-transform: none;
@@ -517,16 +517,24 @@ h2 {
     font-size: 16px;
 }
 
+.about-grid-label {
+    font-weight: bold;
+    color: #555;
+}
+
 .stat-row {
     display: grid;
     grid-template-columns: 110px 30px 1fr;
     align-items: center;
     gap: 30px;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    font-size: 16px;
 }
 
 .stat-label {
     text-transform: capitalize;
+    font-weight: bold;
+    color: #555;
 }
 
 .stat-value {
@@ -547,6 +555,23 @@ h2 {
     border-radius: 8px;
     width: 100%;
     padding: 4px 0;
+}
+
+.moves-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+}
+.move-entry {
+    background-color: #f4f4f4;
+    padding: 6px 10px;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.move-name {
+    text-transform: capitalize;
 }
 
 /* Responsive */
@@ -575,8 +600,16 @@ h2 {
     }
     .tab button {
         padding: 14px 8px;
+        font-size: 16px;
     }
     .stat-row {
         gap: 10px;
     }
+    .about-grid, .stat-row, .move-entry {
+        font-size: 14px;
+    }
+    .move-entry {
+        padding: 3px 5px;
+    }
 }
+
