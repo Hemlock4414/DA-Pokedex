@@ -288,7 +288,7 @@ function openOverlay(pokemonId) {
     overlayRef.style.display = 'flex';
 
     // Dann Tabs rendern
-    let currentPokemon = (isSearching ? filteredPokemon : allPokemon)[currentImageIndex];
+    let currentPokemon = pokemonToShow[currentImageIndex];
     renderStats(currentPokemon);
     renderMoves(currentPokemon);
 }
@@ -343,7 +343,8 @@ function getOverlayTemplate(imageIndex) {
                 </div>
                 <div id="stats" class="tab-content"></div>
                 <div id="evolution" class="tab-content">
-                    <p>Evolution werden hier angezeigt...</p>
+                    <div class="pokeball-spinner"></div>
+                    <div id="evolution-chain" class="evolution-container"></div>
                 </div>
                 <div id="moves" class="tab-content"></div>
             </div>
@@ -395,10 +396,17 @@ function navigateImage(direction) {
     let overlayRef = document.getElementById('overlay-pokemon');
     overlayRef.innerHTML = getOverlayTemplate(currentImageIndex);
 
-    // Dann Tabs rendern
-    let currentPokemon = (isSearching ? filteredPokemon : allPokemon)[currentImageIndex];
+    // Tabs rendern
+    let currentPokemon = pokemonToShow[currentImageIndex];
     renderStats(currentPokemon);
     renderMoves(currentPokemon);
+    
+    // Evolution-Tab zurücksetzen - dataset.loaded komplett entfernen!
+    const evoContainer = document.getElementById("evolution-chain");
+    if (evoContainer) {
+        delete evoContainer.dataset.loaded;
+        evoContainer.innerHTML = '';
+    }
 }
 
 function noPropagation(event) {
@@ -423,6 +431,35 @@ function openTab(evt, tabName) {
     // Ausgewählten Tab anzeigen und Button als aktiv markieren
     document.getElementById(tabName).classList.add("active");
     evt.currentTarget.classList.add("active");
+
+    // Nur wenn Evolution-Tab geöffnet wird
+    if (tabName === "evolution") {
+        const evoContainer = document.getElementById("evolution-chain");
+        if (!evoContainer.dataset.loaded) {
+            // Spinner aus dem Evolution-Tab-Container holen
+            const spinner = document.querySelector("#evolution .pokeball-spinner");
+            
+            if (spinner) spinner.style.display = "block";
+            evoContainer.style.display = "none";
+            
+            // currentPokemon korrekt definieren
+            let pokemonToShow = isSearching ? filteredPokemon : allPokemon;
+            let currentPokemon = pokemonToShow[currentImageIndex];
+            
+            fetchEvolutionData(currentPokemon.name)
+                .then(data => {
+                    renderEvolutionChain(data);
+                    evoContainer.dataset.loaded = "true";
+                })
+                .catch(err => {
+                    console.error("Error loading evolution chain:", err);
+                    // Fehler-Anzeige
+                    if (spinner) spinner.style.display = "none";
+                    evoContainer.innerHTML = "<p>Error loading evolution data</p>";
+                    evoContainer.style.display = "block";
+                });
+        }
+    }
 }
 
 // Render Moves
@@ -457,4 +494,107 @@ function renderMoves(pokemon) {
             `).join('')}
         </div>
     `;
+}
+
+// API Fetch für Evolutionsdaten
+
+async function fetchEvolutionData(pokemonName) {
+    try {
+        // Step 1: Get species data
+        const speciesRes = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokemonName.toLowerCase()}`);
+        
+        if (!speciesRes.ok) {
+            throw new Error(`Species not found: ${pokemonName}`);
+        }
+        
+        const speciesData = await speciesRes.json();
+
+        // Step 2: Get evolution chain
+        const evoRes = await fetch(speciesData.evolution_chain.url);
+        
+        if (!evoRes.ok) {
+            throw new Error('Evolution chain not found');
+        }
+        
+        const evoData = await evoRes.json();
+
+        // Step 3: Traverse evolution chain
+        const chain = [];
+        let current = evoData.chain;
+
+        while (current) {
+            chain.push(current.species.name);
+            // Gehe zum ersten Evolution (falls mehrere existieren)
+            current = current.evolves_to.length > 0 ? current.evolves_to[0] : null;
+        }
+
+        return chain;
+    } catch (error) {
+        console.error("Error loading evolution chain:", error);
+        return [];
+    }
+}
+
+// Anzeige der Evolutionskette
+
+async function renderEvolutionChain(evoNames) {
+    // Spinner aus dem Evolution-Tab-Container holen (nicht global)
+    const spinner = document.querySelector("#evolution .pokeball-spinner");
+    const evoContainer = document.getElementById("evolution-chain");
+    
+    try {
+        evoContainer.innerHTML = ''; // Container leeren
+        evoContainer.style.display = "flex";
+
+        if (evoNames.length === 0) {
+            evoContainer.innerHTML = '<p>No evolution data available</p>';
+            if (spinner) spinner.style.display = "none";
+            return;
+        }
+
+        // Evolution-Kette aufbauen
+        for (let i = 0; i < evoNames.length; i++) {
+            const name = evoNames[i];
+
+            try {
+                // Hole Bild des Pokémon
+                const pokeRes = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+                const pokeData = await pokeRes.json();
+
+                // Baue Knoten
+                evoContainer.innerHTML += `
+                    <div class="evo-stage">
+                        <img class="evo-image" src="${pokeData.sprites.other['official-artwork'].front_default}" alt="${name}">
+                        <div>${capitalize(name)}</div>
+                    </div>
+                `;
+
+                // Füge Pfeil hinzu (außer beim letzten)
+                if (i < evoNames.length - 1) {
+                    evoContainer.innerHTML += `<div class="evo-arrow">➜</div>`;
+                }
+            } catch (error) {
+                console.error(`Error loading data for ${name}:`, error);
+                // Fallback für fehlende Pokémon-Daten
+                evoContainer.innerHTML += `
+                    <div class="evo-stage">
+                        <div class="evo-placeholder">?</div>
+                        <div>${capitalize(name)}</div>
+                    </div>
+                `;
+                if (i < evoNames.length - 1) {
+                    evoContainer.innerHTML += `<div class="evo-arrow">➜</div>`;
+                }
+            }
+        }
+        
+        // Spinner erst am Ende verstecken
+        if (spinner) spinner.style.display = "none";
+        
+    } catch (error) {
+        console.error("Error rendering evolution chain:", error);
+        if (spinner) spinner.style.display = "none";
+        evoContainer.innerHTML = '<p>Error loading evolution data</p>';
+        evoContainer.style.display = "block";
+    }
 }
