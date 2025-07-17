@@ -452,7 +452,7 @@ function renderMoves(pokemon) {
             ${topMoves.map(move => `
                 <div class="move-entry">
                     ${capitalize(move.name)}<br>
-                    <small>Lvl ${move.level}</small>
+                    <small class="move-small">Lvl ${move.level}</small>
                 </div>
             `).join('')}
         </div>
