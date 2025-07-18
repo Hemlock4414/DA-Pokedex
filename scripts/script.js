@@ -126,13 +126,22 @@ function updateRemainingPokemon() {
 
 function handleSearch(event) {
     let searchTerm = event.target.value.toLowerCase();
-    
     updateClearIcon(searchTerm);
-    
+    toggleSearchTooltip(searchTerm);
+
     if (searchTerm.length >= 3) {
         performSearch(searchTerm);
     } else if (searchTerm.length === 0) {
         resetSearch();
+    }
+}
+
+function toggleSearchTooltip(searchTerm) {
+    const tooltip = document.getElementById('search-tooltip');
+    if (searchTerm.length > 0 && searchTerm.length < 3) {
+        tooltip.classList.add('show');
+    } else {
+        tooltip.classList.remove('show');
     }
 }
 

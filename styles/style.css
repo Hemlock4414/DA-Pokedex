@@ -94,7 +94,9 @@ header {
 .search-container {
     position: relative;
     display: flex;
+    flex-direction: column;
     align-items: center;
+    padding-top: 20px;
 }
 
 .search-input {
@@ -108,8 +110,10 @@ header {
     transition: all 0.3s ease;
 }
 
-.close-img {
-    margin-bottom: -5px;
+.close-icon {
+    position: absolute;
+    top: 7px;
+    right: 0px;
 }
 
 .search-input:focus {
@@ -138,6 +142,22 @@ header {
 .clear-search.show {
     display: block;
 }
+
+.search-tooltip {
+    height: 16px;
+    font-size: 12px;
+    color: #fff;
+    margin-top: 4px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.search-tooltip.show {
+    visibility: visible;
+    opacity: 1;
+}
+
 
 /* Main */
 

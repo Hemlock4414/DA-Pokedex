@@ -27,8 +27,9 @@
             <div class="search-container">
                 <input type="text" id="search-input" class="search-input" placeholder="Filter by name or type..." onkeyup="handleSearch(event)">
                 <span id="clear-search" class="clear-search" onclick="clearSearch()">
-                    <img src="./assets/icons/error_32.png" class="close-img" alt="Clear search">
+                    <img src="./assets/icons/error_32.png" class="close-icon" alt="Clear search">
                 </span>
+                <div id="search-tooltip" class="search-tooltip hidden">Please enter at least 3 letters</div>
             </div>
         </div>
     </header>
