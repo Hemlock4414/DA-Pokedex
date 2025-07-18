@@ -156,13 +156,18 @@ function updateClearIcon(searchTerm) {
 async function performAPISearch(searchTerm) {
     isSearching = true;
     showLoading();
-    
+
     try {
-        let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchTerm}`);
+        let allPokemonNames = await fetchAllPokemonNames();
+        let matchingNames = allPokemonNames.filter(pokemon => 
+            pokemon.name.includes(searchTerm.toLowerCase())
+        );
         
-        if (response.ok) {
-            let pokemonData = await response.json();
-            let pokemonDetails = createPokemonDetailsObject(pokemonData);
+        if (matchingNames.length > 0) {
+            let pokemonDetailsPromises = matchingNames.map(pokemon => 
+                fetchPokeDetails(pokemon.url)
+            );
+            let pokemonDetails = await Promise.all(pokemonDetailsPromises);
             handleSearchSuccess(pokemonDetails);
         } else {
             handleSearchNotFound();
@@ -190,8 +195,19 @@ function createPokemonDetailsObject(pokemonData) {
     };
 }
 
-function handleSearchSuccess(pokemonDetails) {
-    filteredPokemon = [pokemonDetails];
+async function fetchAllPokemonNames() {
+    try {
+        let response = await fetch("https://pokeapi.co/api/v2/pokemon?limit=1302");
+        let data = await response.json();
+        return data.results;
+    } catch (error) {
+        console.error("Error fetching all pokemon names:", error);
+        throw error;
+    }
+}
+
+function handleSearchSuccess(pokemonDetailsList) {
+    filteredPokemon = pokemonDetailsList;
     updateUIForSearchResults();
 }
 
