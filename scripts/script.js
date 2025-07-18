@@ -129,16 +129,19 @@ function handleSearch(event) {
     updateClearIcon(searchTerm);
     toggleSearchTooltip(searchTerm);
 
-    if (searchTerm.length >= 3) {
-        performSearch(searchTerm);
-    } else if (searchTerm.length === 0) {
+    if (event.key === 'Enter' && searchTerm.length >= 3) {
+        performAPISearch(searchTerm);
+        return;
+    }
+    if (searchTerm.length === 0) {
         resetSearch();
+        hideSearchTooltip();
     }
 }
 
 function toggleSearchTooltip(searchTerm) {
     const tooltip = document.getElementById('search-tooltip');
-    if (searchTerm.length > 0 && searchTerm.length < 3) {
+    if (searchTerm.length > 0) {
         tooltip.classList.add('show');
     } else {
         tooltip.classList.remove('show');
@@ -150,12 +153,59 @@ function updateClearIcon(searchTerm) {
     clearIcon.classList.toggle('show', searchTerm.length > 0);
 }
 
-function performSearch(searchTerm) {
+async function performAPISearch(searchTerm) {
     isSearching = true;
-    filteredPokemon = allPokemon.filter(pokemon => 
-        pokemon.name.toLowerCase().includes(searchTerm) ||
-        pokemon.types.some(type => type.type.name.toLowerCase().includes(searchTerm))
-    );
+    showLoading();
+    
+    try {
+        let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchTerm}`);
+        
+        if (response.ok) {
+            let pokemonData = await response.json();
+            let pokemonDetails = createPokemonDetailsObject(pokemonData);
+            handleSearchSuccess(pokemonDetails);
+        } else {
+            handleSearchNotFound();
+        }
+    } catch (error) {
+        console.error("Error searching for pokemon:", error);
+        handleSearchError();
+    } finally {
+        hideLoading();
+    }
+}
+
+function createPokemonDetailsObject(pokemonData) {
+    return {
+        id: pokemonData.id,
+        name: pokemonData.name,
+        image: pokemonData.sprites.other['official-artwork'].front_default,
+        types: pokemonData.types,
+        abilities: pokemonData.abilities,
+        height: pokemonData.height,
+        weight: pokemonData.weight,
+        base_experience: pokemonData.base_experience,
+        stats: pokemonData.stats,
+        moves: pokemonData.moves
+    };
+}
+
+function handleSearchSuccess(pokemonDetails) {
+    filteredPokemon = [pokemonDetails];
+    updateUIForSearchResults();
+}
+
+function handleSearchNotFound() {
+    filteredPokemon = [];
+    updateUIForSearchResults();
+}
+
+function handleSearchError() {
+    filteredPokemon = [];
+    updateUIForSearchResults();
+}
+
+function updateUIForSearchResults() {
     renderFilteredPokemon();
     hideLoadMoreButton();
     showCancelButton();
@@ -166,6 +216,7 @@ function resetSearch() {
     renderPokemon();
     showLoadMoreButton();
     hideCancelButton();
+    hideSearchTooltip();
 }
 
 function renderFilteredPokemon() {
@@ -207,8 +258,14 @@ function clearSearch() {
     renderPokemon();
     showLoadMoreButton();
     hideCancelButton();
+    hideSearchTooltip();
     
     searchInput.focus();
+}
+
+function hideSearchTooltip() {
+    const tooltip = document.getElementById('search-tooltip');
+    tooltip.classList.remove('show');
 }
 
 function showCancelButton() {
