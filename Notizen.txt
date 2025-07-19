@@ -1,0 +1,121 @@
+Ich kann dir diese hier empfehlen für die Pokémon-Typen: 
+https://github.com/duiker101/pokemon-type-svg-icons
+
+SVG Icons for Pokemon Types. Contribute to duiker101/pokemon-type-svg-icons development by creating an account on GitHub.
+https://github.com/duiker101/pokemon-type-svg-icons?tab=readme-ov-file
+
+pokemon.com/de/pokedex
+
+die sounds kannst du dir selber aussuchen.
+Du kannst diese zum Beispiel hier finden: 
+https://freesound.org/
+https://pixabay.com/de/sound-effects/
+
+Laden, dann erst rendern. 
+
+Schau dir mal die API Daten an. Da gibt es auch zu jedem Pokémon Bilder, die du laden kannst. 🙂 Das rufst du auf, wie die anderen Infos, das ist demnach kein großer Aufwand
+
+Gerade beim Pokedex geht es darum mit APIs umgehen zu können. Die sind meist sehr verschachtelt. Aber du findest dort alles was du benötigst :) Du lädst hier in deinem Projekt kein img (außer Background img und Logo) als asset in deinen Ordner. Diese lädst du dynamisch von der API!
+
+pokemon.com/de/pokedex
+
+Du musst eine andere API-Route verwenden, nämlich die für die Pokémon-Spezies:
+https://pokeapi.co/api/v2/pokemon-species/1/
+
+📌 Warum gibt’s zwei Endpunkte?
+/pokemon/{id} → Technische Daten (Sprites, Typen, Stats)
+
+/pokemon-species/{id} → Meta-Daten (Namen in allen Sprachen, Beschreibungen, Geschlechterverhältnis, Evolutionslinie usw.)
+
+Endpunkte
+https://www.loom.com/share/be2995f9e87b4ba388cef41e09e9801b
+
+Architektur Top-Down-Prinzip
+https://www.loom.com/share/fe39954a50014ace98389f9842200568
+
+ID Promise Async
+https://www.loom.com/share/c8567c09286241eea7e9e740b0894b19
+
+Pics Evo-Chain
+https://www.loom.com/share/0c4141dd672345e79603b7a4f428caa8
+
+Kann es sein, dass die Bilder in der Pokemon API ganz schön klein sind? Kevin hatte in seinem Video auch komplett andere, konnte die aber nicht in der API finden. Habe ich etwas übersehen?
+https://www.loom.com/share/886fa526748b4f829c73f916715837e5
+
+https://janine-enste.developerakademie.net/PokeDex/index.html
+
+https://felix-wagner.developerakademie.net/Pokedex/index.html
+
+https://lea-engels.developerakademie.net/pokedex/index.html
+https://discord.com/channels/1018183866671955998/1018184150248849469/1363222711400267776
+
+http://aslihan-erdogan.developerakademie.net/pokeatlas/index.html
+https://discord.com/channels/1018183866671955998/1018184150248849469/1364935640780636201
+https://discord.com/channels/1018183866671955998/1018184150248849469/1364571052637814885
+
+https://alexander-putilin.developerakademie.net/modul9/pokedex/html/index.html
+https://discord.com/channels/1018183866671955998/1018184150248849469/1365238037608402994
+
+https://manuel-mannhold.developerakademie.net/pokedex/index.html
+https://discord.com/channels/1018183866671955998/1018184150248849469/1366488545119830067
+https://discord.com/channels/1018183866671955998/1018184150248849469/1367934844243546223
+
+https://rahaf-jarrous.developerakademie.net/Pokedex/index.html
+https://discord.com/channels/1018183866671955998/1018184150248849469/1367198399480205404
+https://discord.com/channels/1018183866671955998/1018184150248849469/1367469880458215635
+https://discord.com/channels/1018183866671955998/1018184150248849469/1371175059128848575
+
+https://ozan-bueyueksimsek.developerakademie.net/pokedex
+https://discord.com/channels/1018183866671955998/1024296549859197008/1367903145409122397
+
+https://marcel-kruck.developerakademie.net/Pokedex/Index.HTML
+https://discord.com/channels/1018183866671955998/1018184150248849469/1373991410327490581
+https://discord.com/channels/1018183866671955998/1018184150248849469/1374105763181629591
+https://discord.com/channels/1018183866671955998/1018184150248849469/1374790345149382696
+
+https://leonhard-siegele.developerakademie.net/pokedexproject/index.html
+https://discord.com/channels/1018183866671955998/1387414818486616077
+
+https://sven-michels.developerakademie.net/projekte/pokedex/
+
+https://daniel-paal.developerakademie.net/PokedexAPI/
+
+https://rahaf-jarrous.developerakademie.net/Pokedex/index.html
+
+https://jakob-moussa.developerakademie.net/Pokomon/index.html
+https://discord.com/channels/1018183866671955998/1024296549859197008/1372517917983506463
+
+https://claudia-wick.developerakademie.net/PokedexTests/
+https://discord.com/channels/1018183866671955998/1024296549859197008/1377282314471608372
+https://discord.com/channels/1018183866671955998/1018184150248849469/1378402331221295136
+https://discord.com/channels/1018183866671955998/1018184150248849469/1378429915229065267
+
+https://marco-roessler.developerakademie.net/Pokedex/index.html
+https://discord.com/channels/1018183866671955998/1018184150248849469/1376439184990011433
+https://discord.com/channels/1018183866671955998/1018184150248849469/1377282621867823115
+
+https://tobias-domagala.developerakademie.net/pokémon/
+https://discord.com/channels/1018183866671955998/1018184150248849469/1377900817494835302
+
+https://leonhard-siegele.developerakademie.net/pokedexproject/index.html
+https://discord.com/channels/1018183866671955998/1018184150248849469/1378716532149977199
+https://discord.com/channels/1018183866671955998/1018184150248849469/1379408480795889726
+https://discord.com/channels/1018183866671955998/1388639581234135082
+
+http://marco-roessler.developerakademie.net/Pokedex/index.html
+https://discord.com/channels/1018183866671955998/1018184150248849469/1379071399578308668
+
+https://halid-crnkic.developerakademie.net/Pokemon%20API/index.html
+https://discord.com/channels/1018183866671955998/1018184150248849469/1379081155000795257
+
+https://arne-robert-klimmt.developerakademie.net/Pokedex/index.html
+https://discord.com/channels/1018183866671955998/1385516329704095846
+https://discord.com/channels/1018183866671955998/1390967051857952869
+
+http://evgenij-liske.developerakademie.net/00%20-%20projects/modul_9_sektion_3_pokemon_api_abschlussprojekt/index.html
+https://discord.com/channels/1018183866671955998/1388127361916211200
+
+https://rucel-tsafack.developerakademie.net/pokemonapi/index.html
+https://discord.com/channels/1018183866671955998/1388136478168715264
+
+http://joerg-bechtold.developerakademie.net/Pokedex/index.html
