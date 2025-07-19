@@ -10,4 +10,4 @@ Wir programmieren ein Pokémon-Trainer-Register. Es ist ein Sammelkartenspiel wo
 - Evolutionskette der Pokémon
 
 
-![pexels-pokedex](https://github.com/user-attachments/assets/eb8bdee8-f419-4b9e-ac7e-72ddb16480d3)
+![pexels-pokedex](./assets/img/pexels-pokedex.jpg)
