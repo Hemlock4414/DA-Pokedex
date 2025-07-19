@@ -6,7 +6,7 @@ Wir programmieren ein Pokémon-Trainer-Register. Es ist ein Sammelkartenspiel wo
 
 - Listenansicht und Grossansicht
 - Suchfunktion nach Name oder Typ
-- Grossansicht mit 4 verschiedenen Tabs
+- Grossansicht mit 4 verschiedenen Tabss
 - Evolutionskette der Pokémon
 
 
