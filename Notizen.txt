@@ -1,8 +1,10 @@
+
+SVG Icons for Pokemon Types. Contribute to duiker101/pokemon-type-svg-icons development by creating an account on GitHub.
 Ich kann dir diese hier empfehlen für die Pokémon-Typen: 
 https://github.com/duiker101/pokemon-type-svg-icons
 
-SVG Icons for Pokemon Types. Contribute to duiker101/pokemon-type-svg-icons development by creating an account on GitHub.
-https://github.com/duiker101/pokemon-type-svg-icons?tab=readme-ov-file
+API
+https://pokeapi.co/
 
 pokemon.com/de/pokedex
 
@@ -16,8 +18,6 @@ Laden, dann erst rendern.
 Schau dir mal die API Daten an. Da gibt es auch zu jedem Pokémon Bilder, die du laden kannst. 🙂 Das rufst du auf, wie die anderen Infos, das ist demnach kein großer Aufwand
 
 Gerade beim Pokedex geht es darum mit APIs umgehen zu können. Die sind meist sehr verschachtelt. Aber du findest dort alles was du benötigst :) Du lädst hier in deinem Projekt kein img (außer Background img und Logo) als asset in deinen Ordner. Diese lädst du dynamisch von der API!
-
-pokemon.com/de/pokedex
 
 Du musst eine andere API-Route verwenden, nämlich die für die Pokémon-Spezies:
 https://pokeapi.co/api/v2/pokemon-species/1/
