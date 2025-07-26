@@ -96,7 +96,7 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 20px;
+    transform: translateY(15%);
 }
 
 .search-input {
@@ -112,7 +112,7 @@ header {
 
 .close-icon {
     position: absolute;
-    top: 7px;
+    top: 6px;
     right: 0px;
 }
 
@@ -158,7 +158,6 @@ header {
     opacity: 1;
 }
 
-
 /* Main */
 
 main {
@@ -170,7 +169,6 @@ main {
     background-size: cover;
     background-position: center;
     overflow-y: auto;
-    height: 100%;
 }
 
 .main-content {

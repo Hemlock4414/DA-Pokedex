@@ -21,6 +21,10 @@
     box-shadow: 0 6px 20px rgba(41, 182, 246, 0.4);
 }
 
+.load-more-btn:active {
+    transform: scale(0.97);
+}
+
 .cancel-search-btn {
     margin: 40px auto 15px;
     padding: 12px 25px;
@@ -43,4 +47,8 @@
 .cancel-search-btn:hover {
     background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
     box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+}
+
+.cancel-search-btn:active {
+    transform: scale(0.97);
 }
