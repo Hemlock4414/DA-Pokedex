@@ -4,13 +4,6 @@
     box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-html, body {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
 }
 
 body {
@@ -32,28 +25,28 @@ h2 {
 
 /* Scrollbar */
 
-main {
+body {
   --sb-track-color: #693838;
   --sb-thumb-color: #bd2837;
   --sb-size: 14px;
 }
 
-main::-webkit-scrollbar {
+body::-webkit-scrollbar {
   width: var(--sb-size)
 }
 
-main::-webkit-scrollbar-track {
+body::-webkit-scrollbar-track {
   background: var(--sb-track-color);
   border-radius: 0px;
 }
 
-main::-webkit-scrollbar-thumb {
+body::-webkit-scrollbar-thumb {
   background: var(--sb-thumb-color);
   border-radius: 6px;
 }
 
 @supports not selector(::-webkit-scrollbar) {
-  main {
+  body {
     scrollbar-color: var(--sb-thumb-color)
                      var(--sb-track-color);
   }
@@ -66,7 +59,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 100;
-    padding: 5px 0;
+    height: 120px;
 }
 
 .header-content {
@@ -168,7 +161,8 @@ main {
     background-image: url('../assets/img/bg_1_1920.jpg');
     background-size: cover;
     background-position: center;
-    overflow-y: auto;
+    min-height: calc(100vh - 120px);
+    background-attachment: fixed;
 }
 
 .main-content {
@@ -389,7 +383,7 @@ main {
     .header-logo {
         display: none;
     }
-        .tab {
+    .tab {
         padding: 0 5px;
     }
     .tab-content {
