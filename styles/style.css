@@ -87,9 +87,8 @@ header {
 .search-container {
     position: relative;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    transform: translateY(15%);
+    height: 100%;
 }
 
 .search-input {
@@ -103,12 +102,6 @@ header {
     transition: all 0.3s ease;
 }
 
-.close-icon {
-    position: absolute;
-    top: 6px;
-    right: 0px;
-}
-
 .search-input:focus {
     background-color: white;
 }
@@ -119,31 +112,42 @@ header {
 
 .clear-search {
     position: absolute;
-    right: 15px;
-    font-size: 24px;
-    color: #666;
+    right: 10px;
+    width: min-content;
+    height: min-content;
     cursor: pointer;
-    user-select: none;
     display: none;
-    transition: color 0.2s ease;
-}
-
-.clear-search:hover {
-    color: #333;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: transform 0.2s ease;
 }
 
 .clear-search.show {
-    display: block;
+    display: flex;
+}
+
+.clear-search:hover {
+    transform: translateY(-50%) scale(1.1);
+    transform-origin: center;
+}
+
+.close-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
 }
 
 .search-tooltip {
+    position: absolute;
+    bottom: 15px;
     height: 16px;
     font-size: 12px;
     color: #fff;
-    margin-top: 4px;
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.2s ease;
+    padding: 4px 12px;
+    white-space: nowrap;
 }
 
 .search-tooltip.show {
@@ -190,6 +194,7 @@ main {
     align-items: center;
     background-color: #eaeaea59;
     cursor: pointer;
+    opacity: 0.95;
 }
 
 .poke-card:hover {
@@ -358,6 +363,9 @@ main {
 /* Responsive */
 
 @media (max-width: 725px) {
+    header {
+        height: auto;
+    }
     .header-content, .main-content {
         padding: 0 5px;
     }
@@ -367,6 +375,12 @@ main {
     }
     header {
         padding: 10px 0 20px;
+    }
+    .search-tooltip {
+        bottom: -14px;
+    }
+    main {
+        min-height: calc(100vh - 200px);
     }
     .overlay-pokemon-content {
         max-width: 95%;
